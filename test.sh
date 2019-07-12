@@ -38,6 +38,7 @@ mkfs.ext4 -E nodiscard /dev/nvme0n1p1
 
 #挂载
 sudo mount /dev/nvme0n1p1 /mnt/ssd/$1
+sudo rm /mnt/ssd/
 echo "挂载成功！"
 #确保安装docker容器
 echo "开始创建容器"
@@ -49,13 +50,10 @@ echo "启动容器"
 sudo docker start $1
 #等待容器创建完成
 sleep 10
-#确保是在安装路径下，如果不在则切换到
-cd tpcc-mysql
-
-#连接mysql，运行在docker容器smartio上
-#例如mysql_docker0
 
 (
+#确保是在安装路径下，如果不在则切换到
+cd tpcc-mysql
 #启动mysql，运行在docker容器smartio上
 mysql -h 127.0.0.1 --port $2 -uroot -p1234 -e '
         create database tpcc;
